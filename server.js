@@ -1,19 +1,30 @@
 const express = require('express');
-const fetch = require('node-fetch');
+const knex = require('knex');
+
 const app = express();
+
+const db = knex({
+    client: 'pg',
+    connection: process.env.POSTGRES_URI
+})
 
 app.use(express.json());
 
 app.get('/photos/:id', (req, res) => {
     const { id } = req.params;
-    fetch(`https://jsonplaceholder.typicode.com/photos/${id}`)
-        .then(response => response.json())
-        .then(data => res.send(
-            `<div>
-                <img src=${data.url}/>
-            </div>`
-        ))
-        .catch((err) => res.send(err))
+
+    db.select('*').from('photo').where({ id })
+        .then(photos => {
+            if (photos[0] && photos[0].url) {
+                res.send(
+                    `<div>
+                        <img src=${photos[0].url}/>
+                    </div>`)
+            } else {
+                res.send("<h1>Not Found</h1>")
+            }
+        }).catch(err => res.send(err))
+
 })
 
 

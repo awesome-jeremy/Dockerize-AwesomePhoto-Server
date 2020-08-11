@@ -1,0 +1,32 @@
+
+version: "3.6"
+
+services:
+  # Backend API
+  awesomephoto-api:
+    container_name: awesomephoto-api
+    build: ./
+    command: npm start
+    working_dir: /usr/src/awesomephoto-api
+    environment:
+      POSTGRES_URI: postgres://jeremy:root@postgres:5432/awesomephoto
+   
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./:/usr/src/awesomephoto-api
+
+
+  # Postgres
+  postgres:
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: jeremy
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: awesomephoto
+      POSTGRES_HOST: postgres
+    build: ./postgres
+    ports:
+      - "5434:5422"
+
+

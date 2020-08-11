@@ -1,0 +1,10 @@
+BEGIN TRANSACTION;
+CREATE TABLE photo(
+    id BIGINT PRIMARY KEY,
+    albumId BIGINT NOT NULL,
+    title VARCHAR(100),
+    url VARCHAR(200),
+    thumbnailUrl VARCHAR(200)
+);
+
+COMMIT;

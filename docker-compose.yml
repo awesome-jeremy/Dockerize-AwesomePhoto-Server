@@ -1,4 +1,3 @@
-
 version: "3.6"
 
 services:
@@ -10,12 +9,11 @@ services:
     working_dir: /usr/src/awesomephoto-api
     environment:
       POSTGRES_URI: postgres://jeremy:root@postgres:5432/awesomephoto
-   
+      REDIS_URI: redis://redis:6379
     ports:
       - "3001:3001"
     volumes:
       - ./:/usr/src/awesomephoto-api
-
 
   # Postgres
   postgres:
@@ -29,4 +27,9 @@ services:
     ports:
       - "5434:5422"
 
-
+  # Redis
+  redis:
+    container_name: awesomephoto-redis
+    image: redis
+    ports:
+      - "6380:6379"
